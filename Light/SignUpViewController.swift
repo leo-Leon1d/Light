@@ -10,7 +10,6 @@ import SnapKit
 
 class SignUpViewController: UIViewController {
     
-    
     private var model: [RegistrationModel] = [
         RegistrationModel(mainImage: "profileLogo", mainText: "Ввести телефон или email", isActiveBorder: false),
         RegistrationModel(mainImage: "facebookLogo", mainText: "Продолжить с Facebook", isActiveBorder: false),
@@ -55,6 +54,7 @@ class SignUpViewController: UIViewController {
         signInTableView.delegate = self
         signInTableView.dataSource = self
         signInTableView.register(RegistrationTableViewCell.self, forCellReuseIdentifier: RegistrationTableViewCell.id)
+        signInTableView.sectionHeaderHeight = 0
         return signInTableView
     }()
     
@@ -183,17 +183,27 @@ class SignUpViewController: UIViewController {
 
 extension SignUpViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: RegistrationTableViewCell.id) as? RegistrationTableViewCell {
-            let item = model[indexPath.row]
+            let item = model[indexPath.section]
             cell.setup(name: item.mainText, imageName: item.mainImage, isActiveBorder: item.isActiveBorder)
             return cell
         }
         return UITableViewCell()
     }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+            let headerView = UIView()
+            headerView.backgroundColor = UIColor.clear
+            return headerView
+        }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         

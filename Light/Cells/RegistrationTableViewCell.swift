@@ -16,6 +16,11 @@ class RegistrationTableViewCell: UITableViewCell {
     
     static let id = "RegistrationTableViewCell"
     
+    lazy private var topView: UIView = {
+        let topView = UIView()
+        return topView
+    }()
+    
     lazy private var mainImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "appleLogo")
@@ -37,6 +42,13 @@ class RegistrationTableViewCell: UITableViewCell {
         return image
     }()
     
+    lazy private var invisibleView: UIView = {
+        let invisView = UIView()
+        invisView.backgroundColor = .white
+        
+        return invisView
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.layer.cornerRadius = 12
@@ -51,13 +63,21 @@ class RegistrationTableViewCell: UITableViewCell {
     
     private func setupCell() {
         
-        contentView.addSubview(mainImage)
-        contentView.addSubview(mainLabel)
-        contentView.addSubview(arrowImage)
+        contentView.addSubview(topView)
+        topView.addSubview(mainImage)
+        topView.addSubview(mainLabel)
+        topView.addSubview(arrowImage)
+        contentView.addSubview(invisibleView)
+        
+        topView.snp.makeConstraints {
+            $0.height.equalTo(48)
+            $0.leading.equalToSuperview().offset(28)
+            $0.trailing.equalToSuperview().offset(-28)
+            $0.top.equalToSuperview()
+        }
         
         mainLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(15)
-            $0.bottom.equalToSuperview().offset(-15)
             $0.leading.equalToSuperview().offset(38)
             $0.trailing.equalToSuperview().offset(-35)
             $0.height.equalTo(18)
@@ -73,6 +93,14 @@ class RegistrationTableViewCell: UITableViewCell {
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview()
             $0.height.width.equalTo(20)
+        }
+        
+        invisibleView.snp.makeConstraints {
+            $0.height.equalTo(8)
+            $0.leading.equalToSuperview().offset(28)
+            $0.trailing.equalToSuperview().offset(-28)
+            $0.bottom.equalToSuperview()
+            $0.top.equalTo(topView.snp.bottom)
         }
         
     }
