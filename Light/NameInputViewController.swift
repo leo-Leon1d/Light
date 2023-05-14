@@ -61,6 +61,13 @@ class NameInputViewController: UIViewController {
     
     lazy private var tfBottomView: UIView = {
         let tfBotView = UIView()
+        tfBotView.backgroundColor = UIColor.errorRed
+        tfBotView.isHidden = true
+        return tfBotView
+    }()
+    
+    lazy private var tfBottomViewGray: UIView = {
+        let tfBotView = UIView()
         tfBotView.backgroundColor = UIColor.tfBottomViewColor
         return tfBotView
     }()
@@ -77,7 +84,8 @@ class NameInputViewController: UIViewController {
     
     lazy private var continueButton: UIButton = {
         let continueButton = UIButton()
-        continueButton.backgroundColor = UIColor.mainGray
+        continueButton.backgroundColor = .buttonGray
+        continueButton.titleLabel?.textColor = .red
         continueButton.setTitle("Продолжить", for: .normal)
         continueButton.layer.cornerRadius = 12
         return continueButton
@@ -120,6 +128,7 @@ class NameInputViewController: UIViewController {
         view.addSubview(tfBottomView)
         view.addSubview(forbiddenNameLabel)
         view.addSubview(continueButton)
+        view.addSubview(tfBottomViewGray)
         
         inputNameLabel.snp.makeConstraints {
             $0.top.equalTo(view.snp.top).offset(120)
@@ -162,6 +171,13 @@ class NameInputViewController: UIViewController {
             $0.height.equalTo(2)
         }
         
+        tfBottomViewGray.snp.makeConstraints {
+            $0.top.equalTo(nameTextField.snp.bottom).offset(12)
+            $0.left.equalTo(view.snp.left).offset(28)
+            $0.right.equalTo(view.snp.right).offset(-20)
+            $0.height.equalTo(2)
+        }
+        
         forbiddenNameLabel.snp.makeConstraints {
             $0.top.equalTo(tfBottomView.snp.bottom).offset(16)
             $0.left.equalTo(view.snp.left).offset(27)
@@ -191,7 +207,6 @@ class NameInputViewController: UIViewController {
 extension NameInputViewController: UITextFieldDelegate {
     
         
-    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let currentText = textField.text ?? ""
@@ -199,12 +214,38 @@ extension NameInputViewController: UITextFieldDelegate {
                 let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
         
         if updatedText.count > 0 {
-            continueButton.backgroundColor = .red
+            continueButton.backgroundColor = .buttonBlue
+            continueButton.titleLabel?.textColor = .white
         } else {
-            continueButton.backgroundColor = .mainGray
+            continueButton.backgroundColor = .buttonGray
+            continueButton.titleLabel?.textColor = .buttonTextGray
         }
+        
+        if updatedText == "Light" {
+            tfBottomView.isHidden = false
+            forbiddenNameLabel.isHidden = false
+            continueButton.backgroundColor = .buttonGray
+            continueButton.titleLabel?.textColor = .buttonTextGray
+            continueButton.isUserInteractionEnabled = false
+            tfBottomViewGray.isHidden = true
+        } else {
+            tfBottomView.isHidden = true
+            forbiddenNameLabel.isHidden = true
+            continueButton.backgroundColor = .buttonBlue
+            continueButton.titleLabel?.textColor = .white
+            continueButton.isUserInteractionEnabled = true
+            continueButton.isEnabled = true
+            tfBottomViewGray.isHidden = false
+        }
+        
+        if updatedText.count = 0 {
+            
+        }
+        
         return true
     }
+    
+        
     
 //    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 //

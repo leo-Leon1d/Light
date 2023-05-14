@@ -55,6 +55,8 @@ class SignUpViewController: UIViewController {
         signInTableView.dataSource = self
         signInTableView.register(RegistrationTableViewCell.self, forCellReuseIdentifier: RegistrationTableViewCell.id)
         signInTableView.sectionHeaderHeight = 0
+        signInTableView.isScrollEnabled = false
+        signInTableView.showsVerticalScrollIndicator = false
         return signInTableView
     }()
     
@@ -150,7 +152,7 @@ class SignUpViewController: UIViewController {
             $0.top.equalTo(descriptionLabel.snp.bottom).offset(20)
             $0.leading.equalToSuperview().offset(28)
             $0.trailing.equalToSuperview().offset(-28)
-            $0.height.equalTo(272)
+            $0.height.equalTo(274)
         }
         
         bottomView.snp.makeConstraints {

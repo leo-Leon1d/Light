@@ -18,6 +18,9 @@ class RegistrationTableViewCell: UITableViewCell {
     
     lazy private var topView: UIView = {
         let topView = UIView()
+        topView.layer.cornerRadius = 12
+        topView.layer.borderWidth = 1
+        topView.layer.borderColor = UIColor.borderGray.cgColor
         return topView
     }()
     
@@ -51,8 +54,7 @@ class RegistrationTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.layer.cornerRadius = 12
-        self.layer.borderWidth = 1
+            
         self.selectionStyle = .none
         setupCell()
     }
@@ -71,8 +73,8 @@ class RegistrationTableViewCell: UITableViewCell {
         
         topView.snp.makeConstraints {
             $0.height.equalTo(48)
-            $0.leading.equalToSuperview().offset(28)
-            $0.trailing.equalToSuperview().offset(-28)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
             $0.top.equalToSuperview()
         }
         
@@ -97,8 +99,8 @@ class RegistrationTableViewCell: UITableViewCell {
         
         invisibleView.snp.makeConstraints {
             $0.height.equalTo(8)
-            $0.leading.equalToSuperview().offset(28)
-            $0.trailing.equalToSuperview().offset(-28)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
             $0.top.equalTo(topView.snp.bottom)
         }
