@@ -59,7 +59,7 @@ class NameInputViewController: UIViewController {
         return deleteTf
     }()
     
-    lazy private var tfBottomView: UIView = {
+    lazy private var tfBottomViewRed: UIView = {
         let tfBotView = UIView()
         tfBotView.backgroundColor = UIColor.errorRed
         tfBotView.isHidden = true
@@ -85,7 +85,7 @@ class NameInputViewController: UIViewController {
     lazy private var continueButton: UIButton = {
         let continueButton = UIButton()
         continueButton.backgroundColor = .buttonGray
-        continueButton.titleLabel?.textColor = .red
+        continueButton.setTitleColor(.buttonTextGray, for: .normal)
         continueButton.setTitle("Продолжить", for: .normal)
         continueButton.layer.cornerRadius = 12
         return continueButton
@@ -97,6 +97,7 @@ class NameInputViewController: UIViewController {
         self.view.backgroundColor = .white
         self.title = "Регистрация"
         
+        setupBackButton()
         setupView()
         
         NotificationCenter.default.addObserver(
@@ -118,6 +119,17 @@ class NameInputViewController: UIViewController {
         nameTextField.becomeFirstResponder()
     }
     
+    private func setupBackButton() {
+        let backCross = UIImage(named: "backCross")
+        
+        self.navigationController?.navigationBar.backIndicatorImage = backCross
+        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backCross
+        self.navigationController?.navigationBar.backItem?.title = ""
+        self.navigationController?.navigationBar.tintColor = .black
+        
+        
+    }
+    
     private func setupView() {
         
         view.addSubview(inputNameLabel)
@@ -125,7 +137,7 @@ class NameInputViewController: UIViewController {
         view.addSubview(nameSmallLabel)
         view.addSubview(nameTextField)
         view.addSubview(deleteTfButton)
-        view.addSubview(tfBottomView)
+        view.addSubview(tfBottomViewRed)
         view.addSubview(forbiddenNameLabel)
         view.addSubview(continueButton)
         view.addSubview(tfBottomViewGray)
@@ -164,7 +176,7 @@ class NameInputViewController: UIViewController {
             $0.height.width.equalTo(16)
         }
         
-        tfBottomView.snp.makeConstraints {
+        tfBottomViewRed.snp.makeConstraints {
             $0.top.equalTo(nameTextField.snp.bottom).offset(12)
             $0.left.equalTo(view.snp.left).offset(28)
             $0.right.equalTo(view.snp.right).offset(-20)
@@ -179,7 +191,7 @@ class NameInputViewController: UIViewController {
         }
         
         forbiddenNameLabel.snp.makeConstraints {
-            $0.top.equalTo(tfBottomView.snp.bottom).offset(16)
+            $0.top.equalTo(tfBottomViewRed.snp.bottom).offset(16)
             $0.left.equalTo(view.snp.left).offset(27)
             $0.right.equalTo(view.snp.right).offset(-29)
         }
@@ -222,14 +234,14 @@ extension NameInputViewController: UITextFieldDelegate {
         }
         
         if updatedText == "Light" {
-            tfBottomView.isHidden = false
+            tfBottomViewRed.isHidden = false
             forbiddenNameLabel.isHidden = false
             continueButton.backgroundColor = .buttonGray
             continueButton.titleLabel?.textColor = .buttonTextGray
             continueButton.isUserInteractionEnabled = false
             tfBottomViewGray.isHidden = true
         } else {
-            tfBottomView.isHidden = true
+            tfBottomViewRed.isHidden = true
             forbiddenNameLabel.isHidden = true
             continueButton.backgroundColor = .buttonBlue
             continueButton.titleLabel?.textColor = .white
@@ -238,8 +250,31 @@ extension NameInputViewController: UITextFieldDelegate {
             tfBottomViewGray.isHidden = false
         }
         
-        if updatedText.count = 0 {
+        if updatedText.count > 0 {
             
+            if updatedText == "Light" {
+                continueButton.backgroundColor = .buttonGray
+                continueButton.titleLabel?.textColor = .buttonTextGray
+                
+                continueButton.isUserInteractionEnabled = false
+                tfBottomViewRed.isHidden = false
+                forbiddenNameLabel.isHidden = false
+            } else {
+                continueButton.backgroundColor = .buttonBlue
+                continueButton.titleLabel?.textColor = .white
+                
+                continueButton.isUserInteractionEnabled = true
+                tfBottomViewRed.isHidden = true
+                forbiddenNameLabel.isHidden = true
+            }
+            
+        } else {
+            continueButton.backgroundColor = .buttonGray
+            continueButton.titleLabel?.textColor = .buttonTextGray
+            
+            continueButton.isUserInteractionEnabled = false
+            tfBottomViewRed.isHidden = true
+            forbiddenNameLabel.isHidden = true
         }
         
         return true

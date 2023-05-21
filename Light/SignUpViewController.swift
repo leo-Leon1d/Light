@@ -98,6 +98,10 @@ class SignUpViewController: UIViewController {
         
         self.view.backgroundColor = .white
         
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
+        
+        self.editButtonItem.setBackButtonTitlePositionAdjustment(UIOffset(horizontal: 0, vertical: 0), for: .default)
+        
         setupView()
     }
     
